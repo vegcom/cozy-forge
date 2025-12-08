@@ -1,0 +1,6 @@
+# https://marketplace.visualstudio.com/items?itemName=1nVitr0.censitive
+
+# .env files
+.env:.*
+
+.*:.*([Ss][Ee][Cc][Rr][Ee][Tt]|[Tt][Oo][Kk][Ee][Nn]|[aA][Pp][Ii]|[Hh][Oo][Ss][Tt]|[Pp][Aa][Ss][Ss]|[Uu][Rr][Ll]|[Ee][Mm][Aa][Ii][Ll]|[Zz][Oo][Nn][Ee]|[Rr][Ee][Pp][Oo]).*

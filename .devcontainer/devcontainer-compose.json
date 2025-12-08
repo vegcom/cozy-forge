@@ -1,0 +1,101 @@
+{
+  "name": "{{ cookiecutter.project_slug }} Kali Dev (Docker Compose)",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "{{ cookiecutter.project_slug }}-dev",
+  "workspaceFolder": "/workspaces/{{ cookiecutter.project_slug }}",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.black-formatter",
+        "charliermarsh.ruff",
+        "hashicorp.terraform",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml",
+        "timonwong.shellcheck",
+        "davidanson.vscode-markdownlint",
+        "esbenp.prettier-vscode",
+        "github.vscode-github-actions",
+        "ms-vscode.makefile-tools",
+        "tamasfe.even-better-toml"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python",
+        "python.terminal.activateEnvironment": true,
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.black-formatter",
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+          }
+        },
+        "black-formatter.args": ["--line-length=120"],
+        "ruff.lint.args": ["--line-length=120"],
+        "terraform.languageServer.enable": true,
+        "[terraform]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true
+        },
+        "[terraform-vars]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true
+        },
+        "[yaml]": {
+          "editor.defaultFormatter": "redhat.vscode-yaml",
+          "editor.formatOnSave": true
+        },
+        "[markdown]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true
+        },
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true
+        },
+        "editor.formatOnSave": true,
+        "editor.rulers": [120],
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "files.associations": {
+          "*.tf": "terraform",
+          "*.tfvars": "terraform-vars",
+          "*.hcl": "terraform"
+        },
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash",
+            "icon": "terminal-bash"
+          }
+        }
+      }
+    }
+  },
+  "forwardPorts": [3000, 8000, 8080, 8443],
+  "portsAttributes": {
+    "3000": {
+      "label": "Web UI",
+      "onAutoForward": "notify"
+    },
+    "8000": {
+      "label": "vLLM API",
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "API Server",
+      "onAutoForward": "notify"
+    },
+    "8443": {
+      "label": "HTTPS",
+      "onAutoForward": "notify"
+    }
+  },
+  "remoteUser": "vscode"
+}

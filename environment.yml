@@ -1,0 +1,52 @@
+name: {{ cookiecutter.project_slug }}
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # Core Python
+  - python=3.11
+  # Networking and security
+  - cryptography
+  - openssl
+  - requests
+  # Database tools
+  - postgresql
+  # System utilities
+  - python-dotenv
+  # Development and testing - Core
+  - pre-commit
+  - pytest
+  - pytest-cov
+  - pytest-mock
+  - cmark-gfm
+  # Python code quality tools
+  - ruff # Modern linter and formatter (replaces black, isort, many flake8 plugins)
+  - flake8 # Additional linting
+  - mypy # Static type checking
+  # Security scanning
+  - checkov # Terraform/IaC security scanner
+  - safety # Python dependency vulnerability scanner
+  # Documentation tools
+  - mdformat # Markdown formatter
+  - mdformat-gfm # GitHub Flavored Markdown support
+  - yamllint
+  # Terraform and infrastructure
+  - terraform
+
+  # Pip packages for additional functionality
+  - pip
+  - pip:
+      # Test utilities
+      - pytest-mock
+      # API clients
+      - python-redmine
+      - kubernetes
+      - CloudFlare
+      # Additional type stubs for mypy
+      - types-requests
+      - types-python-dateutil
+      # Flake8 plugins (not available via conda)
+      - flake8-bugbear
+      - flake8-comprehensions
+      - flake8-pyproject
+      - dlint

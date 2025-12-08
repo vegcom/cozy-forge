@@ -1,0 +1,63 @@
+version: '3.8'
+services:
+  {{ cookiecutter.project_slug }}-dev:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    image: {{ cookiecutter.project_slug }}-dev:latest
+    container_name: {{ cookiecutter.project_slug }}-dev
+    hostname: {{ cookiecutter.project_slug }}-dev
+    # Run as non-root user
+
+    user: vscode
+    # Network mode for direct access
+
+    network_mode: host
+    # Security capabilities for network tools
+
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    # Volumes - mounted as read-only from host, copied into container
+
+    volumes:
+      # Project workspace
+      - ..:/workspaces/{{ cookiecutter.project_slug }}:cached
+      # Optional config mounts (will be copied by setup_mounts.py)
+
+      - ${HOME}/.kube:/mnt/host-kube:ro,cached
+      - ${HOME}/.ssh:/mnt/host-ssh:ro,cached
+      - ${HOME}/.gitconfig:/mnt/host-gitconfig:ro,cached
+      # Optional project configs (if they exist)
+
+      - ../.env:/mnt/host-env:ro,cached
+      - ../terraform/terraform.tfvars:/mnt/host-tfvars:ro,cached
+    # Environment variables
+
+    environment:
+      - KUBECONFIG=/home/vscode/.kube/config
+      - VIRTUAL_ENV=/home/vscode/.venv
+      - PATH=/home/vscode/.venv/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+      - TERM=xterm-256color
+    # Working directory
+
+    working_dir: /workspaces/{{ cookiecutter.project_slug }}
+    # Keep container running
+
+    stdin_open: true
+    tty: true
+    # Restart policy
+
+    restart: unless-stopped
+    # Health check
+
+    healthcheck:
+      test: ["CMD", "kubectl", "version", "--client"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    # Command to run
+
+    command: >
+      bash -c "python3 /usr/local/bin/startup.py && exec bash"

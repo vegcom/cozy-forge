@@ -1,0 +1,109 @@
+[tool.ruff]
+line-length = 120
+unsafe-fixes = true
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "Q", "I"]
+
+# https://docs.astral.sh/ruff/rules/whitespace-before-punctuation/
+# ignore = ["E203"]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+preview = false
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+preview = true
+
+[tool.black]
+line-length = 120
+target-version = ['py39']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_defs = true
+pretty = true
+
+[tool.flake8]
+max-line-length = 120
+extend-ignore = ["E203", "E302", "W503"]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--durations=0",
+    "--last-failed",
+    "--last-failed-no-failures=all",
+    "--new-first",
+    "-rfEsxXp",
+    "-vvv",
+    "--cov=scripts",
+    "--cov-report=term-missing",
+    "--cov-report=html:coverage_html",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+branch = true
+source = ["scripts"]
+omit = [
+    "scripts/__init__.py",
+    "scripts/*/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+show_missing = true
+fail_under = 28
+
+# =============================================================================
+# isort - Import sorting (also handled by ruff with "I" rule)
+# =============================================================================
+[tool.isort]
+profile = "black"
+line_length = 120
+skip_gitignore = true
+known_first_party = ["scripts"]
+
+# =============================================================================
+# bandit - Security linting (moved from .bandit)
+# =============================================================================
+[tool.bandit]
+exclude_dirs = ["tests"]
+skips = ["B603", "B607", "B404", "B105", "B101"]
+
+# =============================================================================
+# yamllint - YAML linting
+# =============================================================================
+[tool.yamllint]
+extends = "relaxed"
+
+[tool.yamllint.rules]
+line-length = { max = 120 }

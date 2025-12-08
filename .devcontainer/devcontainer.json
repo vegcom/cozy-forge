@@ -1,0 +1,134 @@
+{
+  "name": "{{ cookiecutter.project_slug }} Kali Dev Environment",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "VARIANT": "kali-rolling"
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": true,
+      "dockerDashComposeVersion": "v2"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.black-formatter",
+        "charliermarsh.ruff",
+        "hashicorp.terraform",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml",
+        "timonwong.shellcheck",
+        "davidanson.vscode-markdownlint",
+        "esbenp.prettier-vscode",
+        "github.vscode-github-actions",
+        "ms-vscode.makefile-tools",
+        "tamasfe.even-better-toml"
+      ],
+      "settings": {
+        // Python settings
+        "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python",
+        "python.terminal.activateEnvironment": true,
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.black-formatter",
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+          }
+        },
+        "black-formatter.args": ["--line-length=120"],
+        "ruff.lint.args": ["--line-length=120"],
+        // Terraform settings
+        "terraform.languageServer.enable": true,
+        "[terraform]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true
+        },
+        "[terraform-vars]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true
+        },
+        // YAML settings
+        "[yaml]": {
+          "editor.defaultFormatter": "redhat.vscode-yaml",
+          "editor.formatOnSave": true
+        },
+        // Markdown settings
+        "[markdown]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true
+        },
+        // JSON settings
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true
+        },
+        // General editor settings
+        "editor.formatOnSave": true,
+        "editor.rulers": [120],
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "files.associations": {
+          "*.tf": "terraform",
+          "*.tfvars": "terraform-vars",
+          "*.hcl": "terraform"
+        },
+        // Terminal settings
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash",
+            "icon": "terminal-bash"
+          }
+        }
+      }
+    }
+  },
+  "forwardPorts": [3000, 8000, 8080, 8443],
+  "portsAttributes": {
+    "3000": {
+      "label": "Web UI",
+      "onAutoForward": "notify"
+    },
+    "8000": {
+      "label": "vLLM API",
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "API Server",
+      "onAutoForward": "notify"
+    },
+    "8443": {
+      "label": "HTTPS",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "python3 /usr/local/bin/startup.py",
+  "remoteUser": "vscode",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspaces/{{ cookiecutter.project_slug }},type=bind,consistency=cached",
+    "source=${env:HOME}${env:USERPROFILE}/.kube,target=/mnt/host-kube,type=bind,consistency=cached,readonly",
+    "source=${env:HOME}${env:USERPROFILE}/.ssh,target=/mnt/host-ssh,type=bind,consistency=cached,readonly",
+    "source=${env:HOME}${env:USERPROFILE}/.gitconfig,target=/mnt/host-gitconfig,type=bind,consistency=cached,readonly"
+  ],
+  "containerEnv": {
+    "KUBECONFIG": "/home/vscode/.kube/config",
+    "VIRTUAL_ENV": "/home/vscode/.venv",
+    "PATH": "/home/vscode/.venv/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+  },
+  "runArgs": [
+    "--network=host",
+    "--cap-add=NET_ADMIN",
+    "--cap-add=NET_RAW"
+  ]
+}

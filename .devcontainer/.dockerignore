@@ -1,0 +1,62 @@
+# Git
+.git/
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+coverage_html/
+htmlcov/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+terraform.tfvars
+*.auto.tfvars
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+certs/
+database/
+.env
+*.log
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Documentation
+docs/
+
+# CI/CD
+.github/
+
+# Temporary files
+tmp/
+temp/
+*.tmp

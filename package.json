@@ -1,0 +1,21 @@
+{
+  "devDependencies": {
+    "markdownlint": "^0.39.0",
+    "markdownlint-cli": "^0.46.0",
+    "prettier": "^3.4.0"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
+  },
+  "markdownlint": {
+    "default": true,
+    "MD007": false,
+    "MD013": {
+      "line_length": 120
+    },
+    "MD030": false
+  }
+}

@@ -1,0 +1,49 @@
+# .github/workflows/ci.yml
+# TODO: template this like a big girl
+# → https://github.com/orgs/community/discussions/5336
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+defaults:
+  run:
+    shell: bash -l {0}
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Lint & Format
+            run: pre-commit run --all-files
+
+          - name: Tests
+            run: pytest tests/ -v --tb=short --no-cov
+
+          - name: Security Scan (Checkov)
+            run: checkov -d terraform/ --quiet --compact --soft-fail
+
+    name: ${{ matrix.name }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # One single Miniforge setup — cached forever
+      - name: Set up Miniforge
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-variant: Miniforge3
+          miniforge-version: latest
+          activate-environment: {{ cookiecutter.project_slug }}
+          environment-file: environment.yml
+          auto-update-conda: true
+          use-mamba: true
+          cache-environment: true          # ← works perfectly here
+
+      - name: ${{ matrix.name }}
+        run: ${{ matrix.run }}

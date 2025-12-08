@@ -1,0 +1,11 @@
+.env
+.mypy_cache
+.pytest_cache
+.ruff_cache
+*/__pycache__/
+coverage_html
+tests/__pycache__/
+tests/*/__pycache__/
+package-lock.json
+node_modules/
+.coverage
