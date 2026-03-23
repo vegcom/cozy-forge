@@ -1,0 +1,36 @@
+name: Notify on changes
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Get changed files
+        id: changed
+        run: |
+          files=$(git diff --name-only HEAD~1 HEAD | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "files=$files" >> "$GITHUB_OUTPUT"
+
+      - name: Broadcast to subscribers
+        env:
+          TARGETS: ${{ secrets.TARGET_REPOS }}
+          TOKEN: ${{ secrets.NOTIFY_TOKEN }}
+          FILES: ${{ steps.changed.outputs.files }}
+          SOURCE: ${{ github.repository }}
+        run: |
+          echo "$TARGETS" | while IFS= read -r repo; do
+            [ -z "$repo" ] && continue
+            echo "notifying $repo"
+            curl -s -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token $TOKEN" \
+              https://api.github.com/repos/$repo/dispatches \
+              -d "{\"event_type\":\"update\",\"client_payload\":{\"source\":\"$SOURCE\",\"files\":$FILES}}"
+          done

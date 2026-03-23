@@ -1,0 +1,49 @@
+name: Receive update
+
+on:
+  workflow_dispatch: {}
+  # repository_dispatch:
+  #   types: [update]
+  # ^^^ uncomment to enable. configure WATCH_FILES below.
+
+jobs:
+  receive:
+    # if: ${{ false }}  # remove this line once enabled
+    runs-on: ubuntu-latest
+    env:
+      SOURCE: ${{ github.event.client_payload.source }}
+      CHANGED: ${{ toJSON(github.event.client_payload.files) }}
+      TOKEN: ${{ secrets.NOTIFY_TOKEN }}
+      # Space-separated list of files this repo wants to track from source
+      WATCH_FILES: "starship.toml"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for relevant changes
+        id: check
+        run: |
+          for f in $WATCH_FILES; do
+            if echo "$CHANGED" | jq -e --arg f "$f" 'index($f) != null' > /dev/null 2>&1; then
+              echo "match=true" >> "$GITHUB_OUTPUT"
+              echo "matched: $f"
+            fi
+          done
+
+      - name: Sync changed files
+        if: steps.check.outputs.match == 'true'
+        run: |
+          for f in $WATCH_FILES; do
+            if echo "$CHANGED" | jq -e --arg f "$f" 'index($f) != null' > /dev/null 2>&1; then
+              echo "fetching $f from $SOURCE"
+              curl -sfL \
+                -H "Authorization: token $TOKEN" \
+                "https://raw.githubusercontent.com/$SOURCE/main/$f" \
+                -o "$f.incoming"
+              if diff -q "$f" "$f.incoming" > /dev/null 2>&1; then
+                echo "$f unchanged, skipping"
+                rm "$f.incoming"
+              else
+                echo "$f has updates — review $f.incoming before merging"
+              fi
+            fi
+          done
