@@ -107,7 +107,8 @@ line-ending = "auto"
 docstring-code-format = false
 docstring-code-line-length = "dynamic"
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["S101", "D103", "D100", "ANN201", "ANN001"]
+"tests/**" = ["S101", "D103", "D100", "EXE002", "ANN201", "ANN001"]
+"src/**" = ["D203", "D211", "D212", "D213", "EXE002"]
 
 [tool.flake8]
 max-line-length = 88

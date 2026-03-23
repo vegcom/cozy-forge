@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Smoke tests — verifies the template stub is importable."""
 
 from cozy_forge import __version__
