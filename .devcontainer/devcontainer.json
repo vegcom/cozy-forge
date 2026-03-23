@@ -1,0 +1,34 @@
+{
+  "name": "cozy-forge",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true
+    },
+    "ghcr.io/devcontainers/features/conda:1": {
+      "version": "latest",
+      "addCondaForge": true
+    }
+  },
+  "postCreateCommand": "conda env create -yf environment.yml || conda env update -yf environment.yml && direnv allow .",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.mypy-type-checker",
+        "charliermarsh.ruff",
+        "tamasfe.even-better-toml",
+        "redhat.vscode-yaml",
+        "editorconfig.editorconfig",
+        "mkhl.direnv"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/opt/conda/envs/cozy-forge/bin/python",
+        "editor.formatOnSave": true,
+        "[python]": {
+          "editor.defaultFormatter": "charliermarsh.ruff"
+        }
+      }
+    }
+  }
+}
