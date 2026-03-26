@@ -3,8 +3,8 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  # Core Python
-  - python=3.11
+  # Core Python (version set by CI matrix or local conda env)
+  - python
   # Networking and security
   - cryptography
   - openssl
