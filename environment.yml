@@ -17,8 +17,6 @@ dependencies:
   - pre-commit
   - pytest
   - pytest-cov
-  - pytest-mock
-  - cmark-gfm
   # Python code quality tools
   - ruff # Modern linter and formatter (replaces black, isort, many flake8 plugins)
   - flake8 # Additional linting
@@ -30,7 +28,6 @@ dependencies:
   - mdformat # Markdown formatter
   - mdformat-gfm # GitHub Flavored Markdown support
   - yamllint
-
   # Pip packages for additional functionality
   - pip
   - pip:
