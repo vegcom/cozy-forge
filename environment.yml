@@ -30,19 +30,12 @@ dependencies:
   - mdformat # Markdown formatter
   - mdformat-gfm # GitHub Flavored Markdown support
   - yamllint
-  # Infrastructure
-  - ansible
-  - terraform
 
   # Pip packages for additional functionality
   - pip
   - pip:
       # Test utilities
       - pytest-mock
-      # API clients
-      - python-redmine
-      - kubernetes
-      - CloudFlare
       # Additional type stubs for mypy
       - types-requests
       - types-python-dateutil
