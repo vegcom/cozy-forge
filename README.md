@@ -4,7 +4,10 @@
 
 > [!TIP]
 > **🎆 Getting set up**
+>
 > [docs/QUICK_START.md](docs/QUICK_START.md)
+>
+> [docs/MACVLAN.md](docs/MACVLAN.md)
 >
 > [docs/CONFIGURE.md](docs/CONFIGURE.md)
 

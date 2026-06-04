@@ -27,5 +27,5 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: |
           conda info
-          conda list
+          conda activate cozy-forge
           pre-commit run --all

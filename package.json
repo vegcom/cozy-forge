@@ -1,24 +1,3 @@
-{
-  "devDependencies": {
-    "markdownlint": "^0.39.0",
-    "markdownlint-cli": "^0.46.0",
-    "prettier": "^3.4.0"
-  },
-  "prettier": {
-    "trailingComma": "es5",
-    "tabWidth": 2,
-    "semi": false,
-    "singleQuote": true
-  },
-  "markdownlint": {
-    "default": true,
-    "MD007": false,
-    "MD013": {
-      "line_length": 120
-    },
-    "MD030": false,
-    "MD022": false,
-    "MD025": false,
-    "MD041": false
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:767c5da95e4195abf8af8fb36d67927b78d4f9fef6cd4a6f2f635a7c76655437
+size 449

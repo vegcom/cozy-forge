@@ -1,0 +1,31 @@
+{
+	acme_dns cloudflare {env.CF_API_TOKEN}
+	debug
+	admin :2019 {
+		origins 127.0.0.1/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16
+		enforce_origin
+	}
+	log default {
+		output stdout
+		format json
+	}
+	metrics {
+		per_host
+	}
+}
+
+{$_SERVICE_NAME}.{$_DOMAIN_NAME} {
+	reverse_proxy {$_SERVICE_NAME}:443
+}
+
+{$_SERVICE_NAME}.{$_DOMAIN_NAME}:80 {
+	reverse_proxy {$_SERVICE_NAME}:80 {
+		transport http {
+			versions h2c
+		}
+	}
+}
+
+{$_SERVICE_NAME}.{$_DOMAIN_NAME}:443 {
+	reverse_proxy https://{$_SERVICE_NAME}:443
+}
