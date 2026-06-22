@@ -379,7 +379,7 @@
   "python.defaultInterpreterPath": "",
   "python.experiments.enabled": true,
   "python.experiments.optInto": ["All"],
-  "python.languageServer": "None",
+  "python.languageServer": "Default",
   "python.terminal.activateEnvInCurrentTerminal": true,
   "python.terminal.activateEnvironment": true,
   "python.terminal.useEnvFile": true,
