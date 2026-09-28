@@ -1,10 +1,18 @@
+---
 extends: relaxed
 
 rules:
   line-length:
     max: 120
+    level: warning
+  truthy:
+    allowed-values: ['true', 'false', 'yes', 'no']
+  comments:
+    min-spaces-from-content: 1
   document-start: disable
-  truthy: disable
+  indentation:
+    spaces: 2
+    indent-sequences: consistent
   new-lines:
     type: unix
   empty-lines:
@@ -12,3 +20,7 @@ rules:
     max-start: 0
     max-end: 0
   comments-indentation: disable
+
+ignore:
+  - .git/
+  - .github/workflows/

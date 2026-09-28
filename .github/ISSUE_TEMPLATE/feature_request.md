@@ -8,7 +8,7 @@ assignees: ''
 
 ## what's missing
 
-what would you like cozy-salt to do that it doesn't?
+what would you like cozy-forge to do that it doesn't?
 
 ## why
 

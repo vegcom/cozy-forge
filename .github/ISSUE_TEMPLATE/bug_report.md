@@ -12,18 +12,16 @@ what happened vs what you expected
 
 ## how to reproduce
 
-steps, salt commands, error output — whatever helps
+steps, commands, error output — whatever helps
 
 ## environment
 
 - distro + version:
-- salt version (`salt-call --version`):
-- minion or master side?
 
 ## logs
 
 ```text
-paste relevant salt logs here (salt-minion, salt-master, highstate output)
+paste relevant logs/output here
 ```
 
 ## anything else
