@@ -3,7 +3,7 @@
 Create a macvlan network and bridge
 
 > [!Note]
-> May require a shim 
+> May require a shim
 > [vegcom/cozy-salt://srv/salt/_templates/macvlan-shim.jinja](https://raw.githubusercontent.com/vegcom/cozy-salt/develop/srv/salt/_templates/macvlan-shim.jinja)
 
 ```bash

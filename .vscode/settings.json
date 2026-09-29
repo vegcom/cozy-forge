@@ -150,5 +150,5 @@
   "xml.format.xsiSchemaLocationSplit": "onElement",
   "yaml-compose-sorter.addBlankLinesBetweenServices": false,
   "yaml-compose-sorter.addBlankLinesBetweenTopLevelKeys": false,
-  "yaml-compose-sorter.transformKeyValueLists": true,
+  "yaml-compose-sorter.transformKeyValueLists": true
 }

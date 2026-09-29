@@ -45,25 +45,25 @@ graph LR
 > Before begining, </br>
 > please review the following
 
->[!TIP]
+> [!TIP]
 > **📖 Project guidelines**
 > [CONTRIBUTING.md](./docs/CONTRIBUTING.md)
 
->[!TIP]
+> [!TIP]
 > **📖 Pending tasks**
 > [TODO.md](./docs/TODO.md)
 
->[!TIP]
+> [!TIP]
 > **🫡 Documentaiton for deps**
 > [docs/RESOURCES.md](docs/RESOURCES.md)
 
 ---
 
->[!NOTE]
+> [!NOTE]
 > **🌸 Keeping Cozy**
 > Once you're contributing, </br>
 > please Update the following
 
->[!TIP]
+> [!TIP]
 > **📖 Credit yourself**
 > [AUTHORS.md](./docs/AUTHORS.md)

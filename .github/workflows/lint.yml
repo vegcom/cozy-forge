@@ -2,9 +2,9 @@ name: Lint
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   lint:
@@ -13,8 +13,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
-        python-version: ["3.11", "3.12"]
+        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+        python-version: ['3.11', '3.12']
 
     steps:
       - uses: actions/checkout@v4

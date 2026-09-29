@@ -2,8 +2,7 @@
 # This file controls the behavior of Trunk: https://docs.trunk.io/cli
 # Further references:
 # - https://github.com/trunk-io/plugins/blob/main/linters/plugin.yaml
-
-# TODO: add Invoke-ScriptAnalyzer for pwsh
+# - or per item: linters/*/plugin.yaml
 
 version: 0.1
 cli:
@@ -17,28 +16,50 @@ runtimes:
   enabled:
     - node@22.16.0
     - python@3.14.4
+tools:
+  enabled:
+    - actionlint@1.7.12
+    - bandit@1.9.4
+    - checkov@3.3.20
+    - dotenv-linter@4.0.0
+    - grype@0.119.0
+    - hadolint@2.15.1
+    - isort@9.0.2
+    - markdownlint@0.49.1
+    - osv-scanner@2.6.0
+    - pinact@5.0.0
+    - prettier@3.9.9
+    - psscriptanalyzer@1.25.0
+    - ruff@0.16.9
+    - shellcheck@0.11.0
+    - shfmt@3.14.1
+    - taplo@0.10.0
+    - trufflehog@3.97.9
+    - yamllint@1.38.0
 lint:
   enabled:
     - actionlint@1.7.12
     - bandit@1.9.4
     - checkov@3.3.20
+    - dotenv-linter@4.0.0
+    - flake8@7.4.1
     - git-diff-check
     - grype@0.119.0
     - hadolint@2.15.1
     - isort@9.0.2
     - markdownlint@0.49.1
+    - osv-scanner@2.6.0
     - pinact@5.0.0
+    - prettier@3.9.9
     - ruff@0.16.9
     - shellcheck@0.11.0
+    - shfmt@3.14.1
     - taplo@0.10.0
     - trufflehog@3.97.9
     - yamllint@1.38.0
-    - psscriptanalyzer
-    - osv-scanner
-    - prettier
+
   disabled:
     - black
-    - shfmt
   ignore:
     - linters: [yamllint]
       paths:
@@ -48,51 +69,40 @@ lint:
         - .github/workflows/*.yml
     - linters: [markdownlint]
       paths:
-        - .github/PULL_REQUEST_TEMPLATE.md
+        - .github/PULL_REQUEST_TEMPLATE/*.md
+        - .github/ISSUE_TEMPLATE/*.md
         - CODE_OF_CONDUCT.md
         - CONTRIBUTING.md
         - SECURITY.md
   definitions:
     - name: shfmt
       commands:
-        - name: check
-          disable_upstream: true
-          files: [shell]
-          output: sarif
-          read_output_from: stdout
-          run: shfmt --apply-ignore --diff ${target}
-          success_codes: [0]
         - name: format
+          batch: true
+          cache_results: true
           disable_upstream: true
           formatter: true
-          output: sarif
-          read_output_from: stdout
-          run: shfmt --apply-ignore --write ${target}
-          success_codes: [0]
-    - name: prettier
-      commands:
-        - name: lint
-          disable_upstream: true
-          output: sarif
-          read_output_from: stdout
-          run: prettier --config=${workspace}/.prettierrc --check ${target}
-          success_codes: [0]
-        - name: format
-          disable_upstream: true
-          formatter: true
-          output: sarif
-          read_output_from: stdout
-          run: prettier --config=${workspace}/.prettierrc ${target}
-          success_codes: [0]
+          in_place: true
+          output: shfmt
+          run: shfmt --apply-ignore -w -s ${target}
+          success_codes: [0, 1]
+      tools: [shfmt]
+      suggest_if: files_present
+      affects_cache: [.editorconfig]
+      version_command:
+        parse_regex: ${semver}
+        run: shfmt --version
     - name: osv-scanner
+      files: [lockfile]
+      tools: [osv-scanner]
+      description: Checks for known vulnerabilities in your dependencies
       commands:
-        - name: lint
-          files: [ALL]
-          disable_upstream: true
+        - name: scan
           output: sarif
+          run: osv-scanner --config=${workspace}/osv-scanner.toml --format=json --lockfile=${target}
+          success_codes: [0, 1, 128]
           read_output_from: stdout
-          run: osv-scanner --config=${workspace}/osv-scanner.toml --format=json ${target}
-          success_codes: [0]
+          is_security: true
 actions:
   disabled:
     - trunk-announce

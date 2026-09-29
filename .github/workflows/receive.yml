@@ -15,7 +15,7 @@ jobs:
       CHANGED: ${{ toJSON(github.event.client_payload.files) }}
       TOKEN: ${{ secrets.NOTIFY_TOKEN }}
       # Space-separated list of files this repo wants to track from source
-      WATCH_FILES: "starship.toml"
+      WATCH_FILES: 'starship.toml'
     steps:
       - uses: actions/checkout@v4
 

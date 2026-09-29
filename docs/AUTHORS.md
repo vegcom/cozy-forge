@@ -6,10 +6,10 @@
 
 **2st**—frabjous remark **fundimentals** in _“warm remark”_
 
-## 🎆  How We Fit and What We Carry
+## 🎆 How We Fit and What We Carry
 
-|thanks to|1st|2nd|3rd|
-|:-|:-|:-|:-|
-|audit|🔴|🔴|✅|
-|delivery|🔴|✅|🔴|
-|design|✅|🔴|🔴|
+| thanks to | 1st | 2nd | 3rd |
+| :-------- | :-- | :-- | :-- |
+| audit     | 🔴  | 🔴  | ✅  |
+| delivery  | 🔴  | ✅  | 🔴  |
+| design    | ✅  | 🔴  | 🔴  |

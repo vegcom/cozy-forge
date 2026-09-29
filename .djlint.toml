@@ -1,0 +1,3 @@
+exclude = ""
+ignore = "H025"
+use_gitignore = true

@@ -20,8 +20,8 @@ repos:
     rev: v0.14.7
     hooks:
       - id: ruff-check
-        args: [--select, ALL, --fix]   # lint + fix everything
-      - id: ruff-format                # replaces Black + prettier + yamlfmt
+        args: [--select, ALL, --fix] # lint + fix everything
+      - id: ruff-format # replaces Black + prettier + yamlfmt
   - repo: https://github.com/pycqa/flake8
     rev: 7.3.0
     hooks:
