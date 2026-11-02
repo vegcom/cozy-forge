@@ -19,13 +19,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Trunk
+        uses: trunk-io/trunk-action/setup@v1
+
+      - name: Verify Trunk
+        run: trunk --version
+
       - name: Set up miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
           environment-file: environment.yml
           activate-environment: cozy-forge
-          python-version: ${{ matrix.python-version }}
-      - run: |
+          auto-activate-base: false
+
+      - name: Run pre-commit
+        run: |
           conda info
-          conda activate cozy-forge
-          pre-commit run --all
+          pre-commit run --all-files
+        shell: bash -l {0}
