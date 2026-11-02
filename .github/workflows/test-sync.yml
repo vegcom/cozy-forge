@@ -12,7 +12,6 @@ on:
           .coveragerc
           .djlint.toml
           .editorconfig
-          .editorconfig
           .envrc
           .eslintignore
           .flake8
@@ -56,7 +55,7 @@ jobs:
           if [ -n "${{ github.event.inputs.files }}" ]; then
             files="${{ github.event.inputs.files }}"
           else
-            files=$'.editorconfig\n.prettierrc\n.github/linters/.markdownlint.json'
+            files=$'.bandit\n.checkov.yaml\n.coveragerc\n.djlint.toml\n.editorconfig\n.envrc\n.eslintignore\n.flake8\n.gitattributes\n.githooks/commit-msg\n.githooks/lib/conda_bootstrap.py\n.githooks/post-checkout\n.githooks/pre-commit\n.githooks/prepare-commit-msg\n.gitignore\n.hadolint.yaml\n.isort.cfg\n.markdownlint.json\n.markdownlintignore\n.pinact.yaml\n.pre-commit-config.yaml\n.prettierignore\n.prettierrc\n.pylintrc\n.pytest.ini\n.ruff.toml\n.shellcheckrc\n.trunk/trunk.yaml\n.yamllint.yaml\nosv-scanner.toml\n.github/linters/.markdownlint.json'
           fi
 
           # Convert newline-separated list into JSON array (trim whitespace)

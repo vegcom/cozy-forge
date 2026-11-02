@@ -27,7 +27,6 @@ jobs:
             .coveragerc
             .djlint.toml
             .editorconfig
-            .editorconfig
             .envrc
             .eslintignore
             .flake8
