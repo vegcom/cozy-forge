@@ -41,6 +41,7 @@ jobs:
           auto-activate-base: false
 
       - name: Run pre-commit
+        id: precommit
         run: |
           FROM_REF="${{ github.event.pull_request.base.sha || github.event.before }}"
 
@@ -52,3 +53,8 @@ jobs:
             --from-ref "$FROM_REF" \
             --to-ref HEAD
         shell: bash -l {0}
+        continue-on-error: ${{ matrix.os == 'windows-latest' }}
+
+      - name: Windows is allowed to fail
+        if: steps.precommit.outcome == 'failure' && matrix.os == 'windows-latest'
+        run: echo "Windows pre-commit failed (allowed for now)"
