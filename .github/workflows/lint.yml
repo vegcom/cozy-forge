@@ -24,9 +24,11 @@ jobs:
 
       - name: Add Trunk to PATH
         run: echo "$(dirname "$TRUNK_PATH")" >> $GITHUB_PATH
+        shell: bash
 
       - name: Verify Trunk
         run: trunk --version
+        shell: bash
 
       - name: Set up miniconda
         uses: conda-incubator/setup-miniconda@v3
