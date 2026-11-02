@@ -19,7 +19,7 @@
 > ```shell
 > gh variable set TARGET_REPOS --body $'vegcom/cozy-forge
 > vegcom/other-repo
-> vegcom/example'
+> vegcom/example'  # (one repo per line)
 > ```
 >
 > [docs/QUICK_START.md](docs/QUICK_START.md)
