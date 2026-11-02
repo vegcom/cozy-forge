@@ -5,6 +5,23 @@
 > [!TIP]
 > **🎆 Getting set up**
 >
+> ```shell
+> git config --local core.hooksPath .githooks
+> ```
+>
+> ```shell
+> gh secret set NOTIFY_TOKEN      # Fine-grained PAT (Actions: Read & write)
+> gh variable set TARGET_REPOS    # One repo per line
+> ```
+>
+> Example:
+>
+> ```shell
+> gh variable set TARGET_REPOS --body $'vegcom/cozy-forge
+> vegcom/other-repo
+> vegcom/example'
+> ```
+>
 > [docs/QUICK_START.md](docs/QUICK_START.md)
 >
 > [docs/MACVLAN.md](docs/MACVLAN.md)
