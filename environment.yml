@@ -3,41 +3,29 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  # Core Python (version set by CI matrix or local conda env)
-  - python
-  # Networking and security
+  - checkov
   - cryptography
+  - flake8
+  - mdformat
+  - mdformat-gfm
+  - mypy
   - openssl
-  - requests
-  # Database tools
+  - pip
   - postgresql
-  # System utilities
-  - python-dotenv
-  # Development and testing - Core
-  - pre-commit
   - pytest
   - pytest-cov
-  # Python code quality tools
-  - ruff # Modern linter and formatter (replaces black, isort, many flake8 plugins)
-  - flake8 # Additional linting
-  - mypy # Static type checking
-  # Security scanning
-  - checkov # Terraform/IaC security scanner
-  - safety # Python dependency vulnerability scanner
-  # Documentation tools
-  - mdformat # Markdown formatter
-  - mdformat-gfm # GitHub Flavored Markdown support
+  - python
+  - python-dotenv
+  - requests
+  - ruff
+  - safety
   - yamllint
-  # Pip packages for additional functionality
-  - pip
   - pip:
-      # Test utilities
-      - pytest-mock
-      # Additional type stubs for mypy
-      - types-requests
-      - types-python-dateutil
-      # Flake8 plugins (not available via conda)
+      - dlint
       - flake8-bugbear
       - flake8-comprehensions
       - flake8-pyproject
-      - dlint
+      - pre-commit
+      - pytest-mock
+      - types-python-dateutil
+      - types-requests
