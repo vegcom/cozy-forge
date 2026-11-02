@@ -4,8 +4,8 @@ from cozy_forge import __version__
 
 
 def test_placeholder() -> None:
-  assert True
+    assert True
 
 
 def test_import() -> None:
-  assert __version__ == "0.0.0"
+    assert __version__ == "0.0.0"
