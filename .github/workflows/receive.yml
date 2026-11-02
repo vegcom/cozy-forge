@@ -22,16 +22,21 @@ jobs:
           IS_TEST: ${{ github.event.client_payload.test == 'true' }}
           # Files this repo wants to watch from the source (space or newline separated)
           WATCH_FILES: |
-            .editorconfig
             .bandit
             .checkov.yaml
             .coveragerc
             .djlint.toml
             .editorconfig
+            .editorconfig
             .envrc
             .eslintignore
             .flake8
             .gitattributes
+            .githooks/commit-msg
+            .githooks/lib/conda_bootstrap.py
+            .githooks/post-checkout
+            .githooks/pre-commit
+            .githooks/prepare-commit-msg
             .gitignore
             .hadolint.yaml
             .isort.cfg
@@ -45,9 +50,9 @@ jobs:
             .pytest.ini
             .ruff.toml
             .shellcheckrc
+            .trunk/trunk.yaml
             .yamllint.yaml
             osv-scanner.toml
-            .trunk/trunk.yaml
 
         run: |
           to_fetch=""

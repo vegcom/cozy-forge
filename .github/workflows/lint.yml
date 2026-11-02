@@ -40,7 +40,13 @@ jobs:
 
       - name: Run pre-commit
         run: |
+          FROM_REF="${{ github.event.pull_request.base.sha || github.event.before }}"
+
+          if [ "$FROM_REF" = "0000000000000000000000000000000000000000" ]; then
+            FROM_REF="HEAD~1"
+          fi
+
           conda run -n cozy-forge pre-commit run \
-            --from-ref "${{ github.event.pull_request.base.sha || github.event.before }}" \
+            --from-ref "$FROM_REF" \
             --to-ref HEAD
         shell: bash -l {0}

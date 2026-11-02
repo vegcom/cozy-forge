@@ -7,8 +7,37 @@ on:
         description: 'Files to test sync (one per line)'
         required: false
         default: |
+          .bandit
+          .checkov.yaml
+          .coveragerc
+          .djlint.toml
           .editorconfig
+          .editorconfig
+          .envrc
+          .eslintignore
+          .flake8
+          .gitattributes
+          .githooks/commit-msg
+          .githooks/lib/conda_bootstrap.py
+          .githooks/post-checkout
+          .githooks/pre-commit
+          .githooks/prepare-commit-msg
+          .gitignore
+          .hadolint.yaml
+          .isort.cfg
+          .markdownlint.json
+          .markdownlintignore
+          .pinact.yaml
+          .pre-commit-config.yaml
+          .prettierignore
           .prettierrc
+          .pylintrc
+          .pytest.ini
+          .ruff.toml
+          .shellcheckrc
+          .trunk/trunk.yaml
+          .yamllint.yaml
+          osv-scanner.toml
           .github/linters/.markdownlint.json
   push:
     paths:
