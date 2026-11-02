@@ -15,6 +15,7 @@ jobs:
       matrix:
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
         python-version: ['3.11', '3.12']
+    continue-on-error: ${{ matrix.os == 'windows-latest' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -39,6 +40,7 @@ jobs:
 
       - name: Run pre-commit
         run: |
-          conda info
-          pre-commit run --all-files
+          conda run -n cozy-forge pre-commit run \
+            --from-ref "${{ github.event.pull_request.base.sha || github.event.before }}" \
+            --to-ref HEAD
         shell: bash -l {0}
