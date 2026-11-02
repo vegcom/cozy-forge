@@ -1,0 +1,44 @@
+name: Test Sync
+
+on:
+  workflow_dispatch:
+    inputs:
+      files:
+        description: 'Files to test sync (one per line)'
+        required: false
+        default: |
+          .editorconfig
+          .prettierrc
+          .github/linters/.markdownlint.json
+  push:
+    paths:
+      - .github/workflows/notify.yml
+      - .github/workflows/receive.yml
+
+jobs:
+  test-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger self dispatch
+        env:
+          GH_TOKEN: ${{ secrets.NOTIFY_TOKEN }}
+        run: |
+          # Use input if provided, otherwise use default
+          if [ -n "${{ github.event.inputs.files }}" ]; then
+            files="${{ github.event.inputs.files }}"
+          else
+            files=$'.editorconfig\n.prettierrc\n.github/linters/.markdownlint.json'
+          fi
+
+          # Convert newline-separated list into JSON array (trim whitespace)
+          json_files=$(echo "$files" | jq -R -s -c 'split("\n") | map(select(length > 0) | gsub("^\\s+|\\s+$"; ""))')
+
+          echo "Testing files: $json_files"
+
+          gh api \
+            --method POST \
+            /repos/${{ github.repository }}/dispatches \
+            -f "event_type=update" \
+            -f "client_payload[source]=${{ github.repository }}" \
+            -f "client_payload[files]=$json_files" \
+            -f "client_payload[test]=true"

@@ -1,49 +1,101 @@
 name: Receive update
 
 on:
-  workflow_dispatch: {}
-  # repository_dispatch:
-  #   types: [update]
-  # ^^^ uncomment to enable. configure WATCH_FILES below.
+  workflow_dispatch:
+    # Allows manual triggering for testing
+  repository_dispatch:
+    types: [update]
+
+permissions:
+  contents: read
 
 jobs:
   receive:
-    # if: ${{ false }}  # remove this line once enabled
     runs-on: ubuntu-latest
-    env:
-      SOURCE: ${{ github.event.client_payload.source }}
-      CHANGED: ${{ toJSON(github.event.client_payload.files) }}
-      TOKEN: ${{ secrets.NOTIFY_TOKEN }}
-      # Space-separated list of files this repo wants to track from source
-      WATCH_FILES: 'starship.toml'
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check for relevant changes
-        id: check
+      - name: Determine files to fetch
+        id: files
+        env:
+          CHANGED: ${{ toJSON(github.event.client_payload.files || '[]') }}
+          IS_TEST: ${{ github.event.client_payload.test == 'true' }}
+          # Files this repo wants to watch from the source (space or newline separated)
+          WATCH_FILES: |
+            .editorconfig
+            .prettierrc
+            .prettierrc.json
+            .prettierrc.yml
+            prettier.config.js
+            eslint.config.js
+            biome.json
+            ruff.toml
+            .ruff.toml
+            .markdownlint.json
+            .markdownlint-cli2.jsonc
+            stylelint.config.js
+            .yamllint.yml
+            .gitattributes
         run: |
-          for f in $WATCH_FILES; do
-            if echo "$CHANGED" | jq -e --arg f "$f" 'index($f) != null' > /dev/null 2>&1; then
-              echo "match=true" >> "$GITHUB_OUTPUT"
-              echo "matched: $f"
-            fi
-          done
+          to_fetch=""
 
-      - name: Sync changed files
-        if: steps.check.outputs.match == 'true'
+          if [ "$IS_TEST" = "true" ]; then
+            # In test mode, trust the payload files (don't filter against WATCH_FILES)
+            to_fetch=$(echo "$CHANGED" | jq -r '.[]' | tr '\n' ' ')
+            echo "Test mode - using payload files directly"
+          else
+            for f in $WATCH_FILES; do
+              if echo "$CHANGED" | jq -e --arg f "$f" 'index($f) != null' >/dev/null 2>&1; then
+                to_fetch="$to_fetch $f"
+                echo "Match: $f"
+              fi
+            done
+          fi
+
+          echo "to_fetch=$(echo $to_fetch | xargs)" >> "$GITHUB_OUTPUT"
+
+      - name: Download files for review
+        if: steps.files.outputs.to_fetch != ''
+        env:
+          SOURCE: ${{ github.event.client_payload.source }}
+          GH_TOKEN: ${{ secrets.NOTIFY_TOKEN }}
+          IS_TEST: ${{ github.event.client_payload.test == 'true' }}
         run: |
-          for f in $WATCH_FILES; do
-            if echo "$CHANGED" | jq -e --arg f "$f" 'index($f) != null' > /dev/null 2>&1; then
-              echo "fetching $f from $SOURCE"
-              curl -sfL \
-                -H "Authorization: token $TOKEN" \
-                "https://raw.githubusercontent.com/$SOURCE/main/$f" \
-                -o "$f.incoming"
-              if diff -q "$f" "$f.incoming" > /dev/null 2>&1; then
-                echo "$f unchanged, skipping"
-                rm "$f.incoming"
+          for f in ${{ steps.files.outputs.to_fetch }}; do
+            echo "Fetching $f from $SOURCE..."
+
+            if [ "$IS_TEST" = "true" ]; then
+              dest="test-sync/$f"
+              mkdir -p "$(dirname "$dest")"
+            else
+              dest="$f.incoming"
+            fi
+
+            gh api \
+              -H "Accept: application/vnd.github.v3.raw" \
+              "/repos/$SOURCE/contents/$f?ref=main" > "$dest" || {
+                echo "Failed to fetch $f from $SOURCE"
+                continue
+              }
+
+            if [ "$IS_TEST" = "true" ]; then
+              echo "[TEST] Received to $dest"
+              if [ -f "$f" ] && diff -q "$f" "$dest" >/dev/null 2>&1; then
+                echo "[TEST] $f is identical to current version"
+              elif [ -f "$f" ]; then
+                echo "[TEST] $f differs from current version"
+              fi
+            else
+              if diff -q "$f" "$dest" >/dev/null 2>&1; then
+                echo "$f is unchanged — removing .incoming file"
+                rm "$dest"
               else
                 echo "$f has updates — review $f.incoming before merging"
               fi
             fi
           done
+
+      - name: Nothing to do
+        if: steps.files.outputs.to_fetch == ''
+        run: |
+          echo "No watched files were changed. Nothing to fetch."
