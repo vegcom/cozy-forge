@@ -3,29 +3,30 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - checkov
-  - cryptography
-  - flake8
-  - mdformat
-  - mdformat-gfm
-  - mypy
-  - openssl
+  - python=3.12
+  - bandit
+  - djlint
+  - dlint
+  - flake8-bugbear
+  - flake8-comprehensions
+  - flake8-pyproject
+  - gitpython
+  - ipython
+  - ipython
+  - isort
+  - jinja2
+  - jq
   - pip
-  - postgresql
+  - pip-tools
+  - pre-commit
+  - pylint
   - pytest
   - pytest-cov
-  - python
-  - python-dotenv
-  - requests
+  - pytest-mock
+  - pyyaml
   - ruff
-  - safety
+  - shellcheck
+  - types-python-dateutil
+  - types-requests
   - yamllint
-  - pip:
-      - dlint
-      - flake8-bugbear
-      - flake8-comprehensions
-      - flake8-pyproject
-      - pre-commit
-      - pytest-mock
-      - types-python-dateutil
-      - types-requests
+  - pip: []
