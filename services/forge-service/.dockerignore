@@ -1,0 +1,47 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+compose.yml
+.dockerignore
+
+# Python build artifacts and caches
+__pycache__/
+.build/
+.coverage
+.mypy_cache
+.pytest_cache/
+.ruff_cache
+*.egg-info/
+*.pyc
+*.pyd
+*.pyo
+dist/
+htmlcov/
+
+# Node
+node_modules/
+
+# Virtual Environments
+.venv/
+env/
+ENV/
+venv/
+
+# Development / IDEs
+.conda/
+.idea/
+.mamba/
+.trunk/
+.vscode/
+*.swo
+*.swp
+
+# Local logs and environment secrets
+*.log
+*.bak*
+.env
+.env.*
+

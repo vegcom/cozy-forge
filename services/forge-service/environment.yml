@@ -1,0 +1,11 @@
+---
+name: cozy-forge
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.14
+  - pip:
+      - fastapi
+      - gunicorn
+      - uvicorn

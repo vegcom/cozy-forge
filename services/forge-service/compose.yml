@@ -1,0 +1,17 @@
+x-ct-base: &ct-base
+  environment:
+    PYTHONUNBUFFERED: 1
+    PYTHONDONTWRITEBYTECODE: 1
+    TZ: ${TZ:-America/New_York}
+services:
+  forge-service:
+    container_name: cozy_forge_daemon
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./app:/workspace/app
+    <<: *ct-base
