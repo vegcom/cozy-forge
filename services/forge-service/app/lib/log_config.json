@@ -1,74 +1,83 @@
 {
-  "version": 1,
   "disable_existing_loggers": true,
   "formatters": {
+    "cozy_critical": {
+      "datefmt": "%H:%M:%S",
+      "format": "\u001b[1m\u001b[41m\u001b[37m💥 CRITICAL [%(name)s]\u001b[0m %(asctime)s - \u001b[1m\u001b[41m%(levelname)-8s\u001b[0m - \u001b[1m\u001b[31m%(message)s\u001b[0m"
+    },
+    "cozy_debug": {
+      "datefmt": "%H:%M:%S",
+      "format": "\u001b[1m\u001b[36m⚙️ [%(name)s]\u001b[0m %(asctime)s - %(levelname)-8s - %(message)s"
+    },
+    "cozy_error": {
+      "datefmt": "%H:%M:%S",
+      "format": "\u001b[1m\u001b[35m🚨 [%(name)s]\u001b[0m %(asctime)s - \u001b[1m\u001b[31m%(levelname)-8s\u001b[0m - \u001b[31m%(message)s\u001b[0m"
+    },
     "cozy_info": {
       "format": "\u001b[1m\u001b[32m📡 [cozy-forge]\u001b[0m %(message)s"
     },
-    "cozy_debug": {
-      "format": "\u001b[1m\u001b[36m⚙️ [%(name)s]\u001b[0m %(asctime)s - %(levelname)-8s - %(message)s",
-      "datefmt": "%H:%M:%S"
-    },
     "cozy_warn": {
-      "format": "\u001b[1m\u001b[33m⚠️ [%(name)s]\u001b[0m %(asctime)s - \u001b[33m%(levelname)-8s\u001b[0m - %(message)s",
-      "datefmt": "%H:%M:%S"
-    },
-    "cozy_error": {
-      "format": "\u001b[1m\u001b[35m🚨 [%(name)s]\u001b[0m %(asctime)s - \u001b[1m\u001b[31m%(levelname)-8s\u001b[0m - \u001b[31m%(message)s\u001b[0m",
-      "datefmt": "%H:%M:%S"
-    },
-    "cozy_critical": {
-      "format": "\u001b[1m\u001b[41m\u001b[37m💥 CRITICAL [%(name)s]\u001b[0m %(asctime)s - \u001b[1m\u001b[41m%(levelname)-8s\u001b[0m - \u001b[1m\u001b[31m%(message)s\u001b[0m",
-      "datefmt": "%H:%M:%S"
+      "datefmt": "%H:%M:%S",
+      "format": "\u001b[1m\u001b[33m⚠️ [%(name)s]\u001b[0m %(asctime)s - \u001b[33m%(levelname)-8s\u001b[0m - %(message)s"
     }
   },
   "handlers": {
     "console": {
       "class": "logging.StreamHandler",
-      "level": "INFO",
       "formatter": "cozy_info",
-      "stream": "ext://sys.stderr"
-    },
-    "console_info": {
-      "class": "logging.StreamHandler",
       "level": "INFO",
-      "formatter": "cozy_info",
-      "stream": "ext://sys.stderr"
-    },
-    "console_debug": {
-      "class": "logging.StreamHandler",
-      "level": "DEBUG",
-      "formatter": "cozy_debug",
-      "stream": "ext://sys.stderr"
-    },
-    "console_warn": {
-      "class": "logging.StreamHandler",
-      "level": "WARN",
-      "formatter": "cozy_warn",
-      "stream": "ext://sys.stderr"
-    },
-    "console_error": {
-      "class": "logging.StreamHandler",
-      "level": "ERROR",
-      "formatter": "cozy_error",
       "stream": "ext://sys.stderr"
     },
     "console_critical": {
       "class": "logging.StreamHandler",
-      "level": "CRITICAL",
       "formatter": "cozy_critical",
+      "level": "CRITICAL",
+      "stream": "ext://sys.stderr"
+    },
+    "console_debug": {
+      "class": "logging.StreamHandler",
+      "formatter": "cozy_debug",
+      "level": "DEBUG",
+      "stream": "ext://sys.stderr"
+    },
+    "console_error": {
+      "class": "logging.StreamHandler",
+      "formatter": "cozy_error",
+      "level": "ERROR",
+      "stream": "ext://sys.stderr"
+    },
+    "console_info": {
+      "class": "logging.StreamHandler",
+      "formatter": "cozy_info",
+      "level": "INFO",
+      "stream": "ext://sys.stderr"
+    },
+    "console_warn": {
+      "class": "logging.StreamHandler",
+      "formatter": "cozy_warn",
+      "level": "WARN",
       "stream": "ext://sys.stderr"
     },
     "error_console": {
       "class": "logging.StreamHandler",
-      "level": "INFO",
       "formatter": "cozy_info",
+      "level": "INFO",
       "stream": "ext://sys.stderr"
     }
   },
   "loggers": {
-    "sys_log": {
+    "forge": {
       "handlers": ["console_info"],
+      "level": "INFO",
+      "propagate": false
+    },
+    "gunicorn.access": {
+      "handlers": ["console"],
+      "level": "INFO",
+      "propagate": false
+    },
+    "gunicorn.error": {
+      "handlers": ["console"],
       "level": "INFO",
       "propagate": false
     },
@@ -82,18 +91,8 @@
       "level": "DEBUG",
       "propagate": false
     },
-    "forge": {
-      "handlers": ["console_info", "console_debug"],
-      "level": "DEBUG",
-      "propagate": false
-    },
-    "gunicorn.error": {
-      "handlers": ["console"],
-      "level": "INFO",
-      "propagate": false
-    },
-    "gunicorn.access": {
-      "handlers": ["console"],
+    "sys_log": {
+      "handlers": ["console_info"],
       "level": "INFO",
       "propagate": false
     }
@@ -101,5 +100,6 @@
   "root": {
     "handlers": ["console"],
     "level": "INFO"
-  }
+  },
+  "version": 1
 }
