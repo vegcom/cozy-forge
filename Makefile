@@ -6,8 +6,10 @@ require-%:
 				exit 1; \
 		fi
 
+
 # Include all sub-makefiles FIRST
 include make/*.mk
+
 
 # Default goal
 .DEFAULT_GOAL := help
@@ -23,9 +25,14 @@ help: ## Show help
 ifneq ($(shell which direnv 2>/dev/null),)
 DIR_ENV_ALLOWED := $(shell direnv allow .)
 endif
-## Choose shell
+
+
+# Choose shell
+## Try bash first, but if zsh is persent prefer
+ifeq ($(shell test -x /bin/bash && echo yes),yes)
+SHELL := /bin/bash
+endif
+
 ifeq ($(shell test -x /bin/zsh && echo yes),yes)
 SHELL := /bin/zsh
-else
-SHELL := /bin/bash
 endif

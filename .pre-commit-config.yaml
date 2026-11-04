@@ -1,9 +1,5 @@
-# Pre-commit hooks for cozy-salt
-# Install: pip install pre-commit && pre-commit install
-# Run manually: pre-commit run --all-files
-
+---
 repos:
-  # General file hygiene
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
@@ -11,12 +7,11 @@ repos:
         exclude: \.md$
       - id: end-of-file-fixer
       - id: check-yaml
-        args: ['--unsafe'] # Allow custom YAML tags (Salt uses Jinja)
-        exclude: \.sls$ # Skip .sls files (Jinja templates break YAML parser)
+        args: ['--unsafe']
+        exclude: \.sls$
       - id: check-added-large-files
         args: ['--maxkb=500']
       - id: check-merge-conflict
-
   - repo: local
     hooks:
       - id: trunk-chk

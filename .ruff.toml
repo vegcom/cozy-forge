@@ -1,3 +1,4 @@
+#:schema https://github.com/astral-sh/ruff/raw/main/ruff.schema.json
 src = ["src", "tests"]
 builtins = []
 lint.select = ["E", "F", "I"]
@@ -31,5 +32,3 @@ exclude = [
   "venv",
 ]
 per-file-ignores = { "tests/**/*.py" = ["E501"] }
-
-# E501: line-too-long
