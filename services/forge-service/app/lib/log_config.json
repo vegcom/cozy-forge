@@ -1,42 +1,20 @@
 {
-  "disable_existing_loggers": true,
+  "version": 1,
+  "disable_existing_loggers": false,
   "formatters": {
-    "cozy_critical": {
-      "datefmt": "%H:%M:%S",
-      "format": "\u001b[1m\u001b[41m\u001b[37m💥 CRITICAL [%(name)s]\u001b[0m %(asctime)s - \u001b[1m\u001b[41m%(levelname)-8s\u001b[0m - \u001b[1m\u001b[31m%(message)s\u001b[0m"
-    },
-    "cozy_debug": {
-      "datefmt": "%H:%M:%S",
-      "format": "\u001b[1m\u001b[36m⚙️ [%(name)s]\u001b[0m %(asctime)s - %(levelname)-8s - %(message)s"
+    "cozy": {
+      "format": "\u001b[1;36m⚙️  [%(name)s]\u001b[0m %(asctime)s - %(levelname)s - %(pid_tag)s%(message)s",
+      "datefmt": "%H:%M:%S"
     },
     "cozy_error": {
-      "datefmt": "%H:%M:%S",
-      "format": "\u001b[1m\u001b[35m🚨 [%(name)s]\u001b[0m %(asctime)s - \u001b[1m\u001b[31m%(levelname)-8s\u001b[0m - \u001b[31m%(message)s\u001b[0m"
-    },
-    "cozy_info": {
-      "format": "\u001b[1m\u001b[32m📡 [cozy-forge]\u001b[0m %(message)s"
-    },
-    "cozy_warn": {
-      "datefmt": "%H:%M:%S",
-      "format": "\u001b[1m\u001b[33m⚠️ [%(name)s]\u001b[0m %(asctime)s - \u001b[33m%(levelname)-8s\u001b[0m - %(message)s"
+      "format": "\u001b[1;31m🚨 [%(name)s]\u001b[0m %(asctime)s - %(levelname)s - %(pid_tag)s%(message)s",
+      "datefmt": "%H:%M:%S"
     }
   },
   "handlers": {
     "console": {
       "class": "logging.StreamHandler",
-      "formatter": "cozy_info",
-      "level": "INFO",
-      "stream": "ext://sys.stderr"
-    },
-    "console_critical": {
-      "class": "logging.StreamHandler",
-      "formatter": "cozy_critical",
-      "level": "CRITICAL",
-      "stream": "ext://sys.stderr"
-    },
-    "console_debug": {
-      "class": "logging.StreamHandler",
-      "formatter": "cozy_debug",
+      "formatter": "cozy",
       "level": "DEBUG",
       "stream": "ext://sys.stderr"
     },
@@ -45,61 +23,22 @@
       "formatter": "cozy_error",
       "level": "ERROR",
       "stream": "ext://sys.stderr"
-    },
-    "console_info": {
-      "class": "logging.StreamHandler",
-      "formatter": "cozy_info",
-      "level": "INFO",
-      "stream": "ext://sys.stderr"
-    },
-    "console_warn": {
-      "class": "logging.StreamHandler",
-      "formatter": "cozy_warn",
-      "level": "WARN",
-      "stream": "ext://sys.stderr"
-    },
-    "error_console": {
-      "class": "logging.StreamHandler",
-      "formatter": "cozy_info",
-      "level": "INFO",
-      "stream": "ext://sys.stderr"
     }
   },
   "loggers": {
     "forge": {
-      "handlers": ["console_info"],
-      "level": "INFO",
-      "propagate": false
-    },
-    "gunicorn.access": {
+      "level": "DEBUG",
       "handlers": ["console"],
-      "level": "INFO",
-      "propagate": false
-    },
-    "gunicorn.error": {
-      "handlers": ["console"],
-      "level": "INFO",
       "propagate": false
     },
     "health_check": {
-      "handlers": ["console_info"],
-      "level": "INFO",
-      "propagate": false
-    },
-    "math_log": {
-      "handlers": ["console_debug"],
       "level": "DEBUG",
-      "propagate": false
-    },
-    "sys_log": {
-      "handlers": ["console_info"],
-      "level": "INFO",
+      "handlers": ["console"],
       "propagate": false
     }
   },
   "root": {
-    "handlers": ["console"],
-    "level": "INFO"
-  },
-  "version": 1
+    "level": "WARNING",
+    "handlers": ["console"]
+  }
 }

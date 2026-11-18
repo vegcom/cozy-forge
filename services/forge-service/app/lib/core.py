@@ -1,17 +1,5 @@
 # app/lib/core.py
-import logging
-import logging.config
 import socket
-
-
-def get_logger():
-    """Provides a logging integration."""
-    for logger_name in ("uvicorn", "uvicorn.error", "uvicorn.access"):
-        uvicorn_logger = logging.getLogger(logger_name)
-        uvicorn_logger.handlers = []
-        uvicorn_logger.propagate = True
-
-    return logging.getLogger("forge.core")
 
 
 def get_random_free_port() -> int:
